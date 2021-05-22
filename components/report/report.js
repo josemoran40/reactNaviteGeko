@@ -106,6 +106,17 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         backgroundColor: '#0072B1',
         height: 53,
+        borderColor: 'white',
+        borderWidth: 1,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+
+        elevation: 2,
     },
     header: {
         flexDirection: 'row',
@@ -113,7 +124,7 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
     },
     subheader: {
-        width: width / 2 - 20
+        flex: 2
     },
     logo: {
         width: width,
