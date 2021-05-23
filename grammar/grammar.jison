@@ -20,7 +20,7 @@
 "+"					    return 'PLUS';
 "-"					    return 'MINUS';
 "^"                     return 'EXP';
-"x"					    return 'MULTIPLICATION';
+"*"					    return 'MULTIPLICATION';
 "/"					    return 'DIVISION';
 "%"                     return 'MOD';
 <<EOF>>				    return 'EOF';
@@ -44,14 +44,13 @@ ini
 	: expression EOF{
 		return $1;
 	}
-    | error {$$= new Instruction('0','0','error')}
 ;
 
 expression
     :MINUS expression %prec UMINUS		    {$$= new Instruction(new Instruction('0','0','number'),$2,'-')}
     |expression PLUS expression             {$$= new Instruction($1,$3,'+')} 
     |expression MINUS expression            {$$= new Instruction($1,$3,'-')} 
-    |expression MULTIPLICATION expression   {$$= new Instruction($1,$3,'x')}   
+    |expression MULTIPLICATION expression   {$$= new Instruction($1,$3,'*')}   
     |expression DIVISION expression         {$$= new Instruction($1,$3,'/')} 
     |expression EXP expression              {$$= new Instruction($1,$3,'^')}  
     |expression MOD                         {$$= new Instruction($1,new Instruction('100','0','number'),'/')}

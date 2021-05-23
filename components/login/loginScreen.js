@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { Image } from 'react-native-elements/dist/image/Image';
-import LoginBox from './LoginBox';
+import LoginBox from './loginBox';
 export default function Login({ navigation }) {
     return (
         <>

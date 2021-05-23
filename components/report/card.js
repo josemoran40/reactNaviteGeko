@@ -11,7 +11,7 @@ export default function Card({ operation }) {
                     <Text h2 style={{ color: 'white' }}> {operation.number} </Text>
                 </View>
                 <View style={styles.content}>
-                    <Text>{operation.kind}</Text>
+                    <Text>{operation.result}</Text>
                 </View>
             </View>
         </View>

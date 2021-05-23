@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions } from 'react-native';
 import { FlatList } from 'react-native';
 import { StyleSheet, View } from 'react-native';
@@ -8,48 +8,10 @@ import Card from './card';
 
 export default function Report({ navigation }) {
 
-    const list = [
-        {
-            number: 1,
-            kind: 'Subtraction',
-            result: '15+5=10'
-        },
-        {
-            number: 2,
-            kind: 'Subtraction',
-            result: '15+5=10'
-        },
-        {
-            number: 3,
-            kind: 'Subtraction',
-            result: '15+5=10'
-        },
-        {
-            number: 4,
-            kind: 'Subtraction',
-            result: '15+5=10'
-        },
-        {
-            number: 5,
-            kind: 'Subtraction',
-            result: '15+5=10'
-        },
-        {
-            number: 6,
-            kind: 'Subtraction',
-            result: '15+5=10'
-        },
-        {
-            number: 7,
-            kind: 'Subtraction',
-            result: '15+5=10'
-        },
-        {
-            number: 8,
-            kind: 'Subtraction',
-            result: '15+5=10'
-        }
-    ]
+    const [list, setList] = useState([])
+
+    useEffect(() => { console.log(list.length) }, [list])
+
 
     return (
         <View style={styles.container}>
