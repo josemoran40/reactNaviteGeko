@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { Image } from 'react-native-elements/dist/image/Image';
 import LoginBox from './LoginBox';
-export default function Login() {
+export default function Login({ navigation }) {
     return (
         <>
             <View style={styles.headerContainer}>
@@ -16,7 +16,7 @@ export default function Login() {
                         style={{ width: 50, height: 50 }}
                     />
                 </View>
-                <LoginBox />
+                <LoginBox navigation={navigation} />
             </View>
         </>
     );

@@ -3,7 +3,12 @@ import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Image } from 'react-native-elements/dist/image/Image';
 import InputComponent from './inputComponent'
-export default function LoginBox() {
+export default function LoginBox({ navigation }) {
+
+    const navigateReports = () => {
+        navigation.navigate("Report")
+    }
+
     return (
 
         <View style={styles.loginBox}>
@@ -16,6 +21,7 @@ export default function LoginBox() {
             <Button
                 title="Login"
                 buttonStyle={styles.loginButton}
+                onPress={navigateReports}
             />
         </View>
     );

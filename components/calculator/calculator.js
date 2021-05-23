@@ -6,8 +6,8 @@ import { Image } from 'react-native-elements/dist/image/Image';
 import CalculatorButton from './calculatorButton'
 import parser from '../../grammar/grammar'
 
-export default function Calculator() {
-    const numbers = [
+export default function Calculator({ navigation }) {
+    const buttons = [
         ['C', 'DEL', '%', '/'],
         ['7', '8', '9', 'x'],
         ['4', '5', '6', '-'],
@@ -46,10 +46,19 @@ export default function Calculator() {
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.circleHeader}>
-                    <Image
-                        source={require('../../assets/logo.png')}
-                        style={{ height: 44, width: 148 }}
-                    />
+                    <View style={styles.back}>
+                        <Image
+                            source={require('../../assets/arrow.png')}
+                            style={{ height: 35, width: 35 }}
+                            onPress={() => navigation.pop()}
+                        />
+                    </View>
+                    <View style={styles.logo}>
+                        <Image
+                            source={require('../../assets/logo.png')}
+                            style={{ height: 44, width: 148 }}
+                        />
+                    </View>
                     <Text style={styles.headerText}>Calculator</Text>
                 </View>
             </View>
@@ -57,7 +66,7 @@ export default function Calculator() {
                 <Text style={styles.inputStyle}>{operation}</Text>
             </View>
             <View style={styles.buttons}>
-                {numbers.map((item, index) =>
+                {buttons.map((item, index) =>
                     <View style={styles.rows} key={index}>
                         {item.map((column, i) =>
                             <View key={i} style={styles.columns}>
@@ -77,8 +86,6 @@ const height = Dimensions.get('screen').height
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: "100%",
-        width: "100%"
     },
     header: {
         flex: 1.5,
@@ -123,5 +130,16 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         marginTop: 10,
         fontSize: 15
+    },
+    back: {
+        flex: 12,
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-start',
+        width: width,
+        paddingHorizontal: 20
+    },
+    logo: {
+        flex: 1
     }
 });

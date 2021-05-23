@@ -6,7 +6,7 @@ import { Text, Button, Image } from 'react-native-elements';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
 import Card from './card';
 
-export default function Report() {
+export default function Report({ navigation }) {
 
     const list = [
         {
@@ -54,10 +54,23 @@ export default function Report() {
     return (
         <View style={styles.container}>
             <View style={styles.logo}>
-                <Image
-                    source={require('../../assets/logo.png')}
-                    style={{ height: 44, width: 148 }}
-                />
+                <View style={styles.back}>
+                    <Image
+                        source={require('../../assets/arrow.png')}
+                        style={{ height: 35, width: 35 }}
+                        onPress={() => navigation.pop()}
+                    />
+                </View>
+
+                <View style={styles.image}>
+                    <Image
+                        source={require('../../assets/logo.png')}
+                        style={{ height: 44, width: 148 }}
+                    />
+                </View>
+
+                <View style={styles.back}>
+                </View>
             </View>
             <View style={styles.listContainer}>
                 <View>
@@ -77,6 +90,7 @@ export default function Report() {
                                         type="font-awesome"
                                     />
                                 }
+                                onPress={() => navigation.navigate('Calculator')}
                             />
                         </View>
                     </View>
@@ -92,14 +106,13 @@ export default function Report() {
     );
 }
 
-const width = Dimensions.get('screen').width
-const height = Dimensions.get('screen').height
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        flex: 1
     },
     listContainer: {
-        flex: 1,
+        flex: 4,
         paddingHorizontal: 20
     },
     button: {
@@ -127,10 +140,19 @@ const styles = StyleSheet.create({
         flex: 2
     },
     logo: {
-        width: width,
-        height: height * 0.15,
+        flex: 1,
+        flexDirection: 'row',
         backgroundColor: '#F4F4F4',
         justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 20
+    },
+    back: {
+        flex: 1,
+        alignItems: 'center'
+    },
+    image: {
+        flex: 5,
         alignItems: 'center'
     }
 
