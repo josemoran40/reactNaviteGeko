@@ -4,23 +4,41 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-elements';
 import { Image } from 'react-native-elements/dist/image/Image';
 import CalculatorButton from './calculatorButton'
+import parser from '../../grammar/grammar'
 
 export default function Calculator() {
     const numbers = [
-        ['C', 'fd', '%', '/'],
-        ['7', '8', '9', 'X'],
+        ['C', 'DEL', '%', '/'],
+        ['7', '8', '9', 'x'],
         ['4', '5', '6', '-'],
         ['1', '2', '3', '+'],
-        ['%', '0', '.', '=']
+        ['^', '0', '.', '=']
     ]
 
     const [operation, setOperation] = useState('')
 
     const setValue = (value) => {
-        if (value === "C") {
+        if (value === 'C') {
             setOperation('')
+        } else if (value === "=") {
+            console.log(operate(operation))
+        } else if (value === "DEL") {
+            setOperation(operation.slice(0, -1))
         } else {
             setOperation(operation + value)
+        }
+    }
+
+    const operate = (value) => {
+        try {
+            const ast = parser.parse(value)
+            console.log(ast)
+            if (ast != true) {
+                return ast.execute()
+            }
+            return 'ERROR'
+        } catch (error) {
+            console.log(error)
         }
     }
 
