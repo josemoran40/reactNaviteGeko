@@ -6,7 +6,7 @@ import { Image } from 'react-native-elements/dist/image/Image';
 import CalculatorButton from './calculatorButton'
 import parser from '../../grammar/grammar'
 
-export default function Calculator({ navigation }) {
+export default function Calculator({ navigation, route }) {
     const buttons = [
         ['C', 'DEL', '%', '/'],
         ['7', '8', '9', 'x'],
@@ -14,14 +14,22 @@ export default function Calculator({ navigation }) {
         ['1', '2', '3', '+'],
         ['^', '0', '.', '=']
     ]
-
+    const list = route.params.list
     const [operation, setOperation] = useState('')
+    const [result, setResult] = useState(0)
 
     const setValue = (value) => {
         if (value === 'C') {
             setOperation('')
+            setResult(0)
         } else if (value === "=") {
-            console.log(operate(operation))
+            setResult(operate(operation))
+            list.push(
+                {
+                    kind: 'Subtraction',
+                    result: '15+5=10'
+                })
+
         } else if (value === "DEL") {
             setOperation(operation.slice(0, -1))
         } else {
@@ -32,7 +40,6 @@ export default function Calculator({ navigation }) {
     const operate = (value) => {
         try {
             const ast = parser.parse(value)
-            console.log(ast)
             if (ast != true) {
                 return ast.execute()
             }
@@ -63,7 +70,15 @@ export default function Calculator({ navigation }) {
                 </View>
             </View>
             <View style={styles.calculation}>
-                <Text style={styles.inputStyle}>{operation}</Text>
+                {
+                    result == 0 ?
+                        <Text style={styles.inputStyle}>{operation}</Text>
+                        :
+                        <>
+                            <Text style={styles.resultStyle}>{operation}</Text>
+                            <Text style={styles.inputStyle}>{'= ' + result}</Text>
+                        </>
+                }
             </View>
             <View style={styles.buttons}>
                 {buttons.map((item, index) =>
@@ -112,6 +127,10 @@ const styles = StyleSheet.create({
     inputStyle: {
         color: 'white',
         fontSize: 45
+    },
+    resultStyle: {
+        color: '#F4F4F4',
+        fontSize: 20
     },
     circleHeader: {
         flex: 1,

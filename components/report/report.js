@@ -90,7 +90,7 @@ export default function Report({ navigation }) {
                                         type="font-awesome"
                                     />
                                 }
-                                onPress={() => navigation.navigate('Calculator')}
+                                onPress={() => navigation.navigate('Calculator', { list: list })}
                             />
                         </View>
                     </View>
