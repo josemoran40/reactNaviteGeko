@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Dimensions } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-elements';
@@ -20,6 +20,15 @@ export default function Calculator({ navigation, route }) {
     //State that is use to save the result
     const [result, setResult] = useState('')
 
+    useEffect(() => {
+        if (result !== '') {
+            route.params.list.push({
+                number: route.params.list.length + 1,
+                result: operation + '=' + result
+            })
+        }
+    }, [result])
+
     const setValue = (value) => {
         /*
          * If value equals C we clear the input and the result
@@ -34,12 +43,6 @@ export default function Calculator({ navigation, route }) {
             const opterationResult = operate(operation)
             if (opterationResult != undefined) {
                 setResult(opterationResult)
-                console.log(route.params)
-                /*route.params.list.push({
-                    number: route.params.list.length + 1,
-                    result: operation + '=' + result
-                })*/
-                //console.log(route.params.list.length)
             }
         } else if (value === "DEL") {
             setOperation(operation.slice(0, -1))

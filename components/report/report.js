@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Dimensions } from 'react-native';
 import { FlatList } from 'react-native';
 import { StyleSheet, View } from 'react-native';
@@ -10,53 +10,16 @@ export default function Report({ navigation }) {
 
     const [list, setList] = useState([])
 
-    useEffect(() => { console.log(list.length) }, [list])
-
+    useEffect(() => {
+        console.log("list", list)
+    }, [list])
 
     return (
         <View style={styles.container}>
-            <View style={styles.logo}>
-                <View style={styles.back}>
-                    <Image
-                        source={require('../../assets/arrow.png')}
-                        style={{ height: 35, width: 35 }}
-                        onPress={() => navigation.pop()}
-                    />
-                </View>
-
-                <View style={styles.image}>
-                    <Image
-                        source={require('../../assets/logo.png')}
-                        style={{ height: 44, width: 148 }}
-                    />
-                </View>
-
-                <View style={styles.back}>
-                </View>
-            </View>
+            <LogoHeader navigation={navigation} />
             <View style={styles.listContainer}>
                 <View>
-                    <View style={styles.header}>
-                        <View style={styles.subheader}>
-                            <Text h2 style={{ color: '#0072B1' }}>Report</Text>
-                        </View>
-                        <View style={styles.subheader}>
-                            <Button
-                                title=" Calculator"
-                                buttonStyle={styles.button}
-                                icon={
-                                    <Icon
-                                        name="calculator"
-                                        size={30}
-                                        color="white"
-                                        type="font-awesome"
-                                    />
-                                }
-                                onPress={() => navigation.navigate('Calculator', { list: list })}
-                            />
-                        </View>
-                    </View>
-
+                    <Header />
                 </View>
                 <FlatList
                     data={list}
@@ -67,6 +30,56 @@ export default function Report({ navigation }) {
         </View>
     );
 }
+
+const LogoHeader = ({ navigation }) => {
+    return (<View style={styles.logo}>
+        <View style={styles.back}>
+            <Image
+                source={require('../../assets/arrow.png')}
+                style={{ height: 35, width: 35 }}
+                onPress={() => navigation.pop()}
+            />
+        </View>
+        <View style={styles.image}>
+            <Image
+                source={require('../../assets/logo.png')}
+                style={{ height: 44, width: 148 }}
+            />
+        </View>
+
+        <View style={styles.back}>
+        </View>
+    </View>)
+}
+
+const Header = ({ navigation }) => {
+    return (
+        <View style={styles.header}>
+            <View style={styles.subheader}>
+                <Text h2 style={{ color: '#0072B1' }}>Report</Text>
+            </View>
+            <View style={styles.subheader}>
+                <Button
+                    title=" Calculator"
+                    buttonStyle={styles.button}
+                    icon={
+                        <Icon
+                            name="calculator"
+                            size={30}
+                            color="white"
+                            type="font-awesome"
+                        />
+                    }
+                    onPress={() => {
+                        list.push({ number: 5, result: 'prueba' })
+                        navigation.navigate('Calculator', { list: list })
+                    }}
+                />
+            </View>
+        </View>
+    )
+}
+
 
 const styles = StyleSheet.create({
     container: {
