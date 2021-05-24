@@ -1,70 +1,86 @@
-import React, { useState } from 'react';
-import { Dimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, Dimensions } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-elements';
 import { Image } from 'react-native-elements/dist/image/Image';
 import CalculatorButton from './calculatorButton'
 import parser from '../../grammar/grammar'
+import { connect } from 'react-redux'
 
-export default function Calculator({ navigation }) {
+function Calculator({ navigation, route, dispatch }) {
+    //Array that contains all of the buttons of the calculator
     const buttons = [
         ['C', 'DEL', '%', '/'],
-        ['7', '8', '9', 'x'],
+        ['7', '8', '9', '*'],
         ['4', '5', '6', '-'],
         ['1', '2', '3', '+'],
         ['^', '0', '.', '=']
     ]
-
+    //State that is use to save the input
     const [operation, setOperation] = useState('')
+    //State that is use to save the result
+    const [result, setResult] = useState('')
+
+    useEffect(() => {
+        if (result !== '') {
+            //Using redux we push a new operation in the state
+            dispatch({
+                type: 'ADD_OPERATION',
+                result: operation + '=' + result
+            })
+        }
+    }, [result])
 
     const setValue = (value) => {
+        /*
+         * If value equals C we clear the input and the result
+         * If value equals "=" we try to operate the input and push the report list
+         * if value equals DEL we delete the last character of the input
+         * else we just concat value to the input
+         */
         if (value === 'C') {
             setOperation('')
+            setResult('')
         } else if (value === "=") {
-            console.log(operate(operation))
+            const opterationResult = operate(operation)
+            if (opterationResult != undefined) {
+                setResult(opterationResult)
+            }
         } else if (value === "DEL") {
             setOperation(operation.slice(0, -1))
         } else {
             setOperation(operation + value)
+            setResult('')
         }
     }
 
-    const operate = (value) => {
-        try {
-            const ast = parser.parse(value)
-            console.log(ast)
-            if (ast != true) {
-                return ast.execute()
-            }
-            return 'ERROR'
-        } catch (error) {
-            console.log(error)
-        }
+
+    const Results = () => {
+        //Component used for show operation and result
+        return (
+            <View style={styles.calculation}>
+                {
+                    result === '' ?
+                        <Text style={styles.inputStyle}>{operation}</Text>
+                        :
+                        <>
+                            <Text style={styles.resultStyle}>{operation}</Text>
+                            <Text style={styles.inputStyle}>{'= ' + result}</Text>
+                        </>
+                }
+            </View>
+        )
     }
 
+    //Principal compontent used for render all the screen
+    /*
+     * If result is empty just show the operation input
+     * else show both 
+     */
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <View style={styles.circleHeader}>
-                    <View style={styles.back}>
-                        <Image
-                            source={require('../../assets/arrow.png')}
-                            style={{ height: 35, width: 35 }}
-                            onPress={() => navigation.pop()}
-                        />
-                    </View>
-                    <View style={styles.logo}>
-                        <Image
-                            source={require('../../assets/logo.png')}
-                            style={{ height: 44, width: 148 }}
-                        />
-                    </View>
-                    <Text style={styles.headerText}>Calculator</Text>
-                </View>
-            </View>
-            <View style={styles.calculation}>
-                <Text style={styles.inputStyle}>{operation}</Text>
-            </View>
+            <Header navigation={navigation} />
+            <Results />
             <View style={styles.buttons}>
                 {buttons.map((item, index) =>
                     <View style={styles.rows} key={index}>
@@ -78,6 +94,53 @@ export default function Calculator({ navigation }) {
         </View>
     );
 }
+
+export default connect()(Calculator)
+
+const Header = ({ navigation }) => {
+    //Component used for show the logo and title, also contains the navitagion
+    return (
+        <View style={styles.header}>
+            <View style={styles.circleHeader}>
+                <View style={styles.back}>
+                    <Image
+                        source={require('../../assets/arrow.png')}
+                        style={{ height: 35, width: 35 }}
+                        onPress={() => navigation.pop()}
+                    />
+                </View>
+                <View style={styles.logo}>
+                    <Image
+                        source={require('../../assets/logo.png')}
+                        style={{ height: 44, width: 148 }}
+                    />
+                </View>
+                <Text style={styles.headerText}>Calculator</Text>
+            </View>
+        </View>
+    )
+}
+
+const operate = (value) => {
+    try {
+        //Parse the input and create an ast 
+        const ast = parser.parse(value)
+        if (ast != true) {
+            // Execute the operation, this process is goes through all the ast 
+            return ast.execute()
+        }
+    } catch (error) {
+        // If the input have mistakes we report it using an alert
+        Alert.alert(
+            "ERROR",
+            "Check your input",
+            [
+                { text: "OK" }
+            ]
+        );
+    }
+}
+
 
 
 const width = Dimensions.get('screen').width
@@ -112,6 +175,10 @@ const styles = StyleSheet.create({
     inputStyle: {
         color: 'white',
         fontSize: 45
+    },
+    resultStyle: {
+        color: '#F4F4F4',
+        fontSize: 20
     },
     circleHeader: {
         flex: 1,

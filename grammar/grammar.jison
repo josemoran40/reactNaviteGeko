@@ -20,7 +20,7 @@
 "+"					    return 'PLUS';
 "-"					    return 'MINUS';
 "^"                     return 'EXP';
-"x"					    return 'MULTIPLICATION';
+"*"					    return 'MULTIPLICATION';
 "/"					    return 'DIVISION';
 "%"                     return 'MOD';
 <<EOF>>				    return 'EOF';
@@ -44,7 +44,6 @@ ini
 	: expression EOF{
 		return $1;
 	}
-    | error {$$= new Instruction('0','0','error')}
 ;
 
 expression
