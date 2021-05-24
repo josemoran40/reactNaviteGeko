@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-elements';
 
 export default function Card({ operation }) {
+    //This component is used for render the cards of the report list
     return (
         <View style={styles.card}>
             <View style={styles.horizontal}>
@@ -11,7 +12,7 @@ export default function Card({ operation }) {
                     <Text h2 style={{ color: 'white' }}> {operation.number} </Text>
                 </View>
                 <View style={styles.content}>
-                    <Text>{operation.result}</Text>
+                    <Text style={styles.text}>{operation.result}</Text>
                 </View>
             </View>
         </View>
@@ -42,5 +43,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    text: {
+        color: '#A7A7A7',
+        fontWeight: 'bold'
     }
 });

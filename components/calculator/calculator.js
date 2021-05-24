@@ -5,8 +5,9 @@ import { Text } from 'react-native-elements';
 import { Image } from 'react-native-elements/dist/image/Image';
 import CalculatorButton from './calculatorButton'
 import parser from '../../grammar/grammar'
+import { connect } from 'react-redux'
 
-export default function Calculator({ navigation, route }) {
+function Calculator({ navigation, route, dispatch }) {
     //Array that contains all of the buttons of the calculator
     const buttons = [
         ['C', 'DEL', '%', '/'],
@@ -22,8 +23,9 @@ export default function Calculator({ navigation, route }) {
 
     useEffect(() => {
         if (result !== '') {
-            route.params.list.push({
-                number: route.params.list.length + 1,
+            //Using redux we push a new operation in the state
+            dispatch({
+                type: 'ADD_OPERATION',
                 result: operation + '=' + result
             })
         }
@@ -93,6 +95,7 @@ export default function Calculator({ navigation, route }) {
     );
 }
 
+export default connect()(Calculator)
 
 const Header = ({ navigation }) => {
     //Component used for show the logo and title, also contains the navitagion

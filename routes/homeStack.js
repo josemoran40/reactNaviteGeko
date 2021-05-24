@@ -1,12 +1,11 @@
 // In App.js in a new project
 
 import * as React from 'react';
-import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../components/login/loginScreen';
-import Report from '../components/report/report';
 import Calculator from '../components/calculator/calculator';
+import visibleOperations from '../components/report/visibleOperations';
 
 
 const Stack = createStackNavigator();
@@ -21,7 +20,7 @@ function Drawer() {
                         headerStyle: { height: 0 }
                     }} />
 
-                <Stack.Screen name="Report" component={Report}
+                <Stack.Screen name="Report" component={visibleOperations}
                     options={{
                         title: '',
                         headerStyle: { height: 0 },

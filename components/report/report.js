@@ -1,28 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Dimensions } from 'react-native';
 import { FlatList } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { Text, Button, Image } from 'react-native-elements';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
 import Card from './card';
 
-export default function Report({ navigation }) {
-
-    const [list, setList] = useState([])
-
-    useEffect(() => {
-        console.log("list", list)
-    }, [list])
-
+export default function Report({ navigation, operations }) {
+    // With redux we use reduces, in props we can get operations that is the name of the report list
     return (
         <View style={styles.container}>
             <LogoHeader navigation={navigation} />
             <View style={styles.listContainer}>
                 <View>
-                    <Header />
+                    <Header navigation={navigation} />
                 </View>
                 <FlatList
-                    data={list}
+                    data={operations}
                     keyExtractor={(item) => item.number.toString()}
                     renderItem={({ item }) => (<Card operation={item} />)}
                 />
@@ -71,8 +64,7 @@ const Header = ({ navigation }) => {
                         />
                     }
                     onPress={() => {
-                        list.push({ number: 5, result: 'prueba' })
-                        navigation.navigate('Calculator', { list: list })
+                        navigation.navigate('Calculator')
                     }}
                 />
             </View>

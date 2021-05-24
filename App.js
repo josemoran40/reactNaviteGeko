@@ -1,10 +1,13 @@
 import React from 'react';
-import Report from './components/report/report';
 import Drawer from './routes/homeStack';
+import { Provider } from 'react-redux'
+import store from './store/index'
 
 export default function App() {
   return (
-    <Drawer />
+    <Provider store={store}>
+      <Drawer />
+    </Provider>
   );
 }
 

@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Input } from 'react-native-elements';
 
 export default function InputComponent({ placeholder, icon, secure }) {
+    //Inputs for login
     return (
         <Input
             placeholder={placeholder}
